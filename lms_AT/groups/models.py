@@ -1,8 +1,7 @@
-
-
 from django.core.validators import MinLengthValidator
 from django.db import models
 from django.db.models.functions import datetime
+
 
 from .validators import validate_start_date
 
@@ -22,6 +21,13 @@ class Group(models.Model):
     )
     start = models.DateField(default=datetime.datetime.utcnow, validators=[validate_start_date])
     end = models.DateField(null=True, blank=True)
+    headman = models.OneToOneField(
+        'students.Student',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='headman_group'
+    )
     create_datetime = models.DateField(auto_now_add=True)
     update_date = models.DateField(auto_now=True)
 

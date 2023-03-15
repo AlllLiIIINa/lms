@@ -1,5 +1,4 @@
 from django.http import HttpResponseRedirect
-# from django.middleware.csrf import get_token
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.urls import reverse
@@ -8,9 +7,6 @@ from groups.forms import GroupCreateForm
 from groups.forms import GroupFilterForm
 from groups.forms import GroupUpdateForm
 from groups.models import Group
-
-# from webargs.djangoparser import use_args
-# from webargs.fields import Str
 
 
 def get_groups(request):
@@ -26,14 +22,13 @@ def detail_groups(request, group_id):
 
 
 def create_groups(request):
-    if request.method == 'GET':
-        form = GroupCreateForm()
-    elif request.method == 'POST':
+    if request.method == 'POST':
         form = GroupCreateForm(request.POST)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('groups:list'))
 
+    form = GroupCreateForm()
     return render(request, 'groups/create.html', {'form': form})
 
 

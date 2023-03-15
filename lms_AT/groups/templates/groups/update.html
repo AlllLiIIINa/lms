@@ -12,11 +12,17 @@ Update {{ group.name }}
         <div class='col'>
             <form method="post">
             {% csrf_token %}
-            {{ form|crispy }}
+            <table>
+                {{ form|crispy }}
+            </table>
             <input class="btn btn-outline-primary mt-3" type="submit" value="Update">
             <a class="btn btn-outline-primary mt-3" href="{% url 'groups:list' %}">Cancel</a>
             </form>
         </div>
         <div class="col-3"></div>
     </div>
+    <div class="row"></div>
+        {%  with objects_list=group.students.all group_on=False %}
+            {% include 'includes/students_tab.html' %}
+        {% endwith %}
 {% endblock %}

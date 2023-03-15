@@ -32,29 +32,36 @@
                 </div>
             </div>
         </div>
-        <div class="row"></div>
-    <table class="table table-striped table-hover">
+    <div class="row"></div>
+        <table class="table table-striped table-hover">
         <thead>
             <tr>
                 <th>№</th>
                 <th>Name</th>
                 <th>Description</th>
+                <th>Headman</th>
                 <th>Start</th>
+                <th>End</th>
                 <th><i class="bi bi-pencil-fill"></i></th>
                 <th><i class="bi bi-trash3-fill"></i></th>
             </tr>
         </thead>
         <tbody>
-        {% for group in filter_form.qs %}
-            <tr>
-                <td>{{ forloop.counter }}</td>
-                <td><a href="{% url 'groups:detail' group.pk %}">{{ group.name }}</a></td>
-                <td>{{ group.description }}</td>
-                <td>{{ group.start }}</td>
-                <td><a class="btn btn-outline-primary btn-sm" href="{% url 'groups:update' group.pk %}">Edit</a></td>
-                <td><a class="btn btn-outline-danger btn-sm" href="{% url 'groups:delete' group.pk %}">Delete</a></td>
-            </tr>
-        {% endfor %}
+            {% for group in filter_form.qs %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td><a href="{% url 'groups:detail' group.pk %}">{{ group.name }}</a></td>
+                    <td>
+                        {%  if group.headman %}
+                            {{ group.headman.first_name }} {{ group.headman.last_name }}
+                        {% endif %}
+                    </td>
+                    <td>{{ group.description }}</td>
+                    <td>{{ group.start }}</td>
+                    <td><a class="btn btn-outline-primary btn-sm" href="{% url 'groups:update' group.pk %}">Edit</a></td>
+                    <td><a class="btn btn-outline-danger btn-sm" href="{% url 'groups:delete' group.pk %}">Delete</a></td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
     </div>

@@ -8,12 +8,7 @@ from groups.models import Group
 class GroupBaseForm(forms.ModelForm):
     class Meta:
         model = Group
-        fields = [
-            'name',
-            'description',
-            'start',
-            'end'
-        ]
+        fields = '__all__'
 
         widgets = {
             'start': forms.DateInput(attrs={'type': 'date'}),
@@ -22,6 +17,17 @@ class GroupBaseForm(forms.ModelForm):
 
 
 class GroupCreateForm(GroupBaseForm):
+    from students.models import Student
+    # students = forms.ModelMultipleChoiceField(queryset=Student.objects.select_related('group'), required=False)
+    students = forms.ModelMultipleChoiceField(queryset=Student.objects.filter(group__isnull=True), required=False)
+
+    def save(self, commit=True):
+        group = super().save(commit)
+        students = self.cleaned_data['students']
+        for student in students:
+            student.group = group
+            student.save()
+
     class Meta(GroupBaseForm.Meta):
         pass
 
